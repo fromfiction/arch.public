@@ -86,15 +86,22 @@ class WebSocketHandler {
                 pop.style.display = 'block';
             }
 
-            if (data.event === 'shuffle' || data.event === 'reset') {
-                const container = document.querySelector('#container');
+            if (data.event === 'shuffle') {
+                const container = document.getElementById('container');
                 if (!container) return;
-                container.innerHTML = '';
-                /*
                 if (data.message == '') {
+                    container.innerHTML = '';
                     return;
                 }
-                */
+            }
+
+            if (data.event === 'reset') {
+                const container = document.getElementById('container');
+                const legals = document.getElementById('legal_sets');
+                if (!container) return;
+                if (!legals) return;
+                legals.textContent = data.message;
+                container.innerHTML = '';
             }
 
             if (data.event === 'field') {
