@@ -107,12 +107,17 @@ class WebSocketHandler {
             if (data.event === 'field') {
                 const container = document.querySelector('#container');
                 if (!container) return;
-                if (data.message == '') {
+                const legals = document.getElementById('legal_sets');
+                if (!legals) return;
+                if (data.message[1]) {
+                    legals.textContent = data.message[1];
+                }
+                if (data.message[0] == '') {
                     container.innerHTML = '';
                     return;
                 }
                 const elm = document.createElement('div');
-                elm.innerHTML = data.message;
+                elm.innerHTML = data.message[0];
                 const children = elm.querySelectorAll('.card');
                 for (let child of children) {
                     if (child.classList.contains('ongoing')) {
