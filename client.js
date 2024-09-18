@@ -1,5 +1,5 @@
 //const endpoint = "ws://localhost/ws";
-const endpoint = 'ws://frimfram-arch.deno.dev/ws';
+const endpoint = 'wss://frimfram-arch.deno.dev/ws';
 let initialReconnectDelay = 1000;
 let currentReconnectDelay = initialReconnectDelay;
 let maxReconnectDelay = 16000;
