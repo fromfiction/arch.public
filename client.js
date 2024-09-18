@@ -89,10 +89,12 @@ class WebSocketHandler {
             if (data.event === 'shuffle' || data.event === 'reset') {
                 const container = document.querySelector('#container');
                 if (!container) return;
+                container.innerHTML = '';
+                /*
                 if (data.message == '') {
-                    container.innerHTML = '';
                     return;
                 }
+                */
             }
 
             if (data.event === 'field') {
