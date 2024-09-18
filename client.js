@@ -9,6 +9,7 @@ let maxReconnectDelay = 16000;
 class WebSocketHandler {
 
     constructor(endpoint, initRecDelay = 1000, curRecDelay = 1000, maxRecDelay = 16000) {
+        console.log(endpoint);
         this._endpoint = endpoint;
         this._initialReconnectDelay = initRecDelay;
         this._currentReconnectDelay = curRecDelay;
