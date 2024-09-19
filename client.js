@@ -69,6 +69,9 @@ class WebSocketHandler {
                 const submit = document.createElement('button');
                 submit.textContent = 'submit';
                 submit.setAttribute('class', 'execute_reset');
+
+                const pop = document.getElementById('popup_overlay');
+
                 submit.addEventListener('click', () => {
                     const sets = document.getElementsByClassName('expantion_checkbox');
                     const keys = [];
@@ -76,13 +79,12 @@ class WebSocketHandler {
                         if (set.checked)
                             keys.push(set.name);
                     }
-                    //const message = JSON.stringify(keys);
                     ws.sendEvent('reset', keys);
+                    pop.innerHTML = '';
                     pop.style.display = 'none';
                 });
                 buttonParent.append(submit);
                 root.append(buttonParent);
-                const pop = document.getElementById('popup_overlay');
                 pop.append(root);
                 pop.style.display = 'block';
             }
