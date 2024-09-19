@@ -116,7 +116,7 @@ class WebSocketHandler {
                     if (sets[0] == null) {
                         legals.textContent = 'No Card in Deck. Please Reset Deck.';
                     } else {
-                        legals.textContent = sets[1];
+                        legals.textContent = sets;
                     }
                 }
                 if (data.message[0] == '') {
