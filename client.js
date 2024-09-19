@@ -111,7 +111,13 @@ class WebSocketHandler {
                 const legals = document.getElementById('legal_sets');
                 if (!legals) return;
                 if (data.message[1]) {
-                    legals.textContent = data.message[1];
+                    const sets = data.message[1];
+                    console.log(sets);
+                    if (sets[0] == null) {
+                        legals.textContent = 'No Card in Deck. Please Reset Deck.';
+                    } else {
+                        legals.textContent = sets[1];
+                    }
                 }
                 if (data.message[0] == '') {
                     container.innerHTML = '';
