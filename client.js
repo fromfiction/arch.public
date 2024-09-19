@@ -30,11 +30,24 @@ class WebSocketHandler {
             const data = JSON.parse(request.data);
 
             const discard = (card) => {
-                console.log(card);
-                //const name = card.querySelector('.cardname').innerText;
+                
                 if (!card || !card.hasAttribute('name')) return;
-                const name = card.getAttribute('name');
-                this.sendEvent('discard', name);
+
+                console.log(card.classList);
+
+                if (card.classList.contains('focused_card')) {
+                    console.log('discard ready');
+                    const name = card.getAttribute('name');
+                    this.sendEvent('discard', name);
+                } else {
+                    console.log('focus');
+                    const focused = document.getElementsByClassName('focused_card');
+                    for (const c of focused) {
+                        c.classList.remove('focused_card');
+                    }
+                    
+                    card.classList.add('focused_card');
+                }
             }
         
             if (data.event === 'cardlist' || data.event === 'createRandomDeck') {
@@ -286,6 +299,13 @@ const initPopupOverlay = () => {
     popup_overlay.style.display = 'none';
 }
 
+const resetFocus = () => {       
+    const focused = document.getElementsByClassName('focused_card');
+    for (const c of focused) {
+        c.classList.remove('focused_card');
+    }
+}
+
 onload = (event) => {
     const interval = 500;
     let active = true;
@@ -295,6 +315,7 @@ onload = (event) => {
     const button_draw = document.querySelector('.button_draw');
     if (!button_draw) return false;
     button_draw.addEventListener('click', () => {
+        resetFocus();
         if (ws.getState() === 3) {
             return;
         }

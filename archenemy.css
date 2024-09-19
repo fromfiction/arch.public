@@ -145,3 +145,8 @@ div.ongoing {
     padding: 10px;
     opacity: 1;
 }
+
+div.focused_card {
+    outline: 3px solid rgb(19, 229, 194);
+    outline-offset: -5px;
+}
