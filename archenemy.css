@@ -62,6 +62,10 @@ hr {
 }
 
 button.button_draw {
+    appearance: none;
+    -webkit-appearance: none;/*Google Chrome/Safari対応*/
+    -moz-appearance: none;/*Firefox対応*/
+    -o-appearance: none;/*Opera対応*/
     font-size: 1.6rem;
     font-weight: 700;
     line-height: 1.5;
@@ -69,11 +73,7 @@ button.button_draw {
     display: inline-block;
     padding: 1rem;
     cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
     user-select: none;
-    -webkit-transition: all 0.3s;
     transition: all 0.3s;
     text-align: center;
     vertical-align: middle;
@@ -92,11 +92,7 @@ button.button_shuffle {
     display: inline-block;
     padding: 1rem;
     cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
     user-select: none;
-    -webkit-transition: all 0.3s;
     transition: all 0.3s;
     text-align: center;
     vertical-align: middle;
