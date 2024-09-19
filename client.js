@@ -78,6 +78,7 @@ class WebSocketHandler {
                     }
                     //const message = JSON.stringify(keys);
                     ws.sendEvent('reset', keys);
+                    pop.style.display = 'none';
                 });
                 buttonParent.append(submit);
                 root.append(buttonParent);
