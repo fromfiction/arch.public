@@ -12,6 +12,15 @@ hr {
     color: #dddddd;
 }
 
+.popup_form {
+    margin: auto auto auto auto;
+    width: 100%;
+    padding: 0px;
+    position: fixed;
+    top: 10px;
+    text-align: center;
+}
+
 #popup_overlay {
     display: block;
     position: fixed;

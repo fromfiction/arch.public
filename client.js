@@ -4,7 +4,7 @@ let initialReconnectDelay = 1000;
 let currentReconnectDelay = initialReconnectDelay;
 let maxReconnectDelay = 16000;
 
-
+//const roomId = 'ajweclisfn';
 
 class WebSocketHandler {
 
@@ -206,11 +206,82 @@ class WebSocketHandler {
     }
 }
 
-const ws = new WebSocketHandler(endpoint);
+ws = null;//new WebSocketHandler(endpoint + "/" + roomId);
+
+const join = () => {
+
+    const data = sessionStorage.getItem('roomId');
+    if (data != null) {
+        ws = new WebSocketHandler(endpoint + "/" + data);
+        initPopupOverlay();
+        return;
+    }
+
+    const root = document.createElement('div');
+    root.setAttribute('id', 'popup');
+
+    const formdiv = document.createElement('div');
+    formdiv.setAttribute('class', 'popup_form');
+
+    const label = document.createElement('label');
+    label.textContent = 'Room ID';
+    const form = document.createElement('input');
+    form.setAttribute('type', 'text');
+    form.setAttribute('id', 'room_id');
+    form.setAttribute('minlength', '4');
+    form.setAttribute('maxlength', '16');
+
+    const br = document.createElement('br');
+
+    formdiv.append(label);
+    formdiv.append(br);
+    formdiv.append(form);
+    root.append(formdiv);
+    
+    const buttonParent = document.createElement('div');
+    buttonParent.setAttribute('class', 'button_block');
+    const submit = document.createElement('button');
+    submit.textContent = 'submit';
+    submit.setAttribute('class', 'execute_reset');
+
+    buttonParent.append(submit);
+    root.append(buttonParent);
+    const pop = document.getElementById('popup_overlay');
+    pop.append(root);
+    pop.style.display = 'block';
+
+
+    submit.addEventListener('click', () => {
+        const form = document.getElementById('room_id');
+        if (!form) return;
+        const roomId = form.value;
+
+        ws = new WebSocketHandler(endpoint + "/" + roomId);
+
+        sessionStorage.setItem('roomId', roomId);
+
+        initPopupOverlay();
+    });
+}
+
+const initPopupOverlay = () => {
+    const popup_overlay = document.getElementById('popup_overlay');
+    if (!popup_overlay) return false;
+    popup_overlay.addEventListener('click', (event) => {
+        if (event.target == popup_overlay) {
+            popup_overlay.innerHTML = '';
+            popup_overlay.style.display = 'none';
+        }
+    });
+    
+    popup_overlay.style.display = 'none';
+}
 
 onload = (event) => {
     const interval = 500;
     let active = true;
+
+    join();
 
     const button_draw = document.querySelector('.button_draw');
     if (!button_draw) return false;
@@ -244,18 +315,5 @@ onload = (event) => {
         }
 
         ws.send('prepareReset');
-        //const result = window.confirm('デッキの内容は変更されます');
-        //if (result) ws.send('reset');
     });
-
-    const popup_overlay = document.getElementById('popup_overlay');
-    if (!popup_overlay) return false;
-    popup_overlay.addEventListener('click', (event) => {
-        if (event.target == popup_overlay) {
-            popup_overlay.innerHTML = '';
-            popup_overlay.style.display = 'none';
-        }
-    });
-
-    //ws.send('createRandomDeck');
 };
