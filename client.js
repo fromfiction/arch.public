@@ -148,7 +148,7 @@ class WebSocketHandler {
                 }
             }
 
-            if (data.event === 'reset') {
+            if (data.event === 'resetHighlander' || data.event === 'resetRandom') {
                 const container = document.getElementById('container');
                 const legals = document.getElementById('legal_sets');
                 if (!container) return;
