@@ -59,7 +59,12 @@ class WebSocketHandler {
             if (data.event === 'prepareReset') {
                 const root = document.createElement('div');
                 root.setAttribute('id', 'popup');
-                const sets = data.message;
+                const sets_block = document.createElement('div');
+                const sets = data.message[0];
+                const legals = data.message[1];
+                const deckType = data.message[2];
+                const currentType = data.message[3];
+                console.log(sets);
                 for (const key in sets) {
                     console.log(sets[key]);
                     const parent = document.createElement('div');
@@ -69,14 +74,37 @@ class WebSocketHandler {
                     input.setAttribute('type', 'checkbox');
                     input.setAttribute('id', key);
                     input.setAttribute('name', sets[key]);
-                    input.checked = true;
+                    input.checked = legals.some(c => c == sets[key]);
                     const label = document.createElement('label');
                     label.setAttribute('for', key);
                     label.textContent = sets[key];
                     parent.append(input);
                     parent.append(label);
-                    root.append(parent);
+                    sets_block.append(parent);
                 }
+                root.append(sets_block);
+
+                const decktype_block = document.createElement('div');
+                console.log(deckType);
+                for (const key in deckType) {
+                    const parent = document.createElement('div');
+                    parent.setAttribute('class', 'decktype');
+                    const input = document.createElement('input');
+                    input.setAttribute('class', 'decktype_radiobox');
+                    input.setAttribute('type', 'radio');
+                    input.setAttribute('id', key);
+                    input.setAttribute('value', deckType[key]);
+                    input.setAttribute('name', 'decktype');
+                    input.checked = currentType == deckType[key];
+                    const label = document.createElement('label');
+                    label.setAttribute('for', key);
+                    label.textContent = deckType[key];
+                    parent.append(input);
+                    parent.append(label);
+                    decktype_block.append(parent);
+                }
+                root.append(decktype_block);
+
                 const buttonParent = document.createElement('div');
                 buttonParent.setAttribute('class', 'button_block');
                 const submit = document.createElement('button');
@@ -92,7 +120,16 @@ class WebSocketHandler {
                         if (set.checked)
                             keys.push(set.name);
                     }
-                    ws.sendEvent('reset', keys);
+                    const decktypes = document.getElementsByClassName('decktype_radiobox');
+                    console.log(decktypes);
+                    let decktype = '';//decktypeElm.value;
+                    for (const elm of decktypes) {
+                        if (elm.checked) {
+                            decktype = elm.value;
+                        }
+                    }
+                    const command = 'reset' + decktype;
+                    ws.sendEvent(command, keys);
                     pop.innerHTML = '';
                     pop.style.display = 'none';
                 });

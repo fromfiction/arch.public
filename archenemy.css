@@ -42,6 +42,11 @@ hr {
     border-radius: 10px;
 }
 
+.decktype {
+    padding: 5px;
+    margin: 5px;
+}
+
 .sets {
     padding: 5px;
     margin: 5px;
